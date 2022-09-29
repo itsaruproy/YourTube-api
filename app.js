@@ -17,5 +17,6 @@ app.post("/login", userController.apiLogin)
 
 app.post("/createlist", auth.auth, listController.apiCreateList)
 app.post("/addChannel",auth.auth, listController.apiAddChannel)
+app.post("/deletelist", auth.auth, listController.apiDeleteList)
 
 module.exports = app

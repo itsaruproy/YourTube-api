@@ -1,3 +1,4 @@
+const ObjectId = require("mongodb").ObjectId
 const List = require("../models/List")
 const User = require("../models/User")
 
@@ -32,7 +33,7 @@ exports.apiAddChannel = async (req, res) => {
         // 1. find list
         // 2. create list object
         // 3. mutate channels
-        const doc = await List.ifListExists(req.body._id, req.body.listname)
+        const doc = await List.ifListExists(new ObjectId(req.apiUser._id).toString(), req.body.listname)
         //console.log("The fetched channel list ", doc)
         if(!doc) {
             res.json({ message: "List does not exist" })
@@ -44,5 +45,19 @@ exports.apiAddChannel = async (req, res) => {
         res.json({ message: "New Channel added to list" })
     } catch(err) {
         res.json({ message: "Error occurred" })
+    }
+}
+
+exports.apiDeleteList = async (req, res) => {
+    try {
+        const list = await List.ifListExists(new ObjectId(req.apiUser._id).toString(), req.body.listname)
+        if(new ObjectId(list.ownerId).equals(new ObjectId(req.apiUser._id))) {
+            await List.deleteList(new ObjectId(list._id).toString())
+            res.json({ message: "List deleted" })
+        } else {
+            res.json({ message: "You are not authorized" })
+        }
+    } catch(err) {
+        res.json(err)
     }
 }

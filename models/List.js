@@ -62,6 +62,17 @@ class List {
 
         })
     }
+
+    static deleteList = (listID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await listsCollection.deleteOne({_id: new ObjectID(listID)})
+                resolve({ message: "List deleted successfully" })
+            } catch {
+                reject({ message: "Delete list failed" })
+            }
+        })
+    }
 }
 
 module.exports = List
