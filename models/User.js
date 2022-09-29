@@ -1,5 +1,7 @@
 const usersCollection = require("../db").db().collection("users")
 const ObjectID = require("mongodb").ObjectId
+
+
 class User {
     constructor(data) {
         this.data = data

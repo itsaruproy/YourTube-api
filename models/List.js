@@ -1,5 +1,7 @@
 const listsCollection = require("../db").db().collection("lists")
 const ObjectID = require("mongodb").ObjectId
+
+
 class List {
     constructor(ownerId, listname, channels = []) {
         this.ownerId = ownerId
