@@ -32,7 +32,8 @@ exports.apiAddChannel = async (req, res) => {
         // 1. find list
         // 2. create list object
         // 3. mutate channels
-        const doc = List.ifListExists(req.body._id, req.body.listname)
+        const doc = await List.ifListExists(req.body._id, req.body.listname)
+        //console.log("The fetched channel list ", doc)
         if(!doc) {
             res.json({ message: "List does not exist" })
             return

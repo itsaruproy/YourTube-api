@@ -41,7 +41,12 @@ class List {
     addNewChannel = (newChannelID) => {
         return new Promise(async (resolve, reject) => {
             try {
+                //console.log("Before adding ", this.channels)
+                if(this.channels.contains(newChannelID)) {
+                    return reject({ message: "List already exits"})
+                }
                 this.channels = [...this.channels, newChannelID]
+                //console.log("after mutating", this.channels)
                 await listsCollection.findOneAndUpdate(
                 {ownerId: this.ownerId, listname: this.listname},
                 {
