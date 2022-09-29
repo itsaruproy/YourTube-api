@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken")
 const User = require("../models/User")
 
 exports.apiRegister = async (req, res) => {
@@ -15,7 +16,15 @@ exports.apiLogin = async (req, res) => {
     let user = new User(req.body)
     try {
         await user.login()
-        res.json({ message: "Login Successful", username: user.data.username })   
+        res.json(
+            { token: jwt.sign(
+                {_id: user.data._id, username: user.data.username},
+                process.env.JWTSECRET,
+                {expiresIn: '7d'}
+                ), 
+            username: user.data.username },
+            
+        )   
     } catch(err) {
         res.json(err)
     }

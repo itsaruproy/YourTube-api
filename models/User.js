@@ -24,6 +24,7 @@ class User {
             try {
                 const attemptedUser = await usersCollection.findOne({ username: this.data.username })
                 if(attemptedUser.password === this.data.password) {
+                    this.data = attemptedUser
                     resolve()
                 } else {
                     reject({ message: "Invalid password" })
